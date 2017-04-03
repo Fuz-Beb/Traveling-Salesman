@@ -79,33 +79,21 @@ public class TSPComputation implements Callable<Solution> {
     return tempSolution;
   }
 
+  // Vérifier si la variable tempSolution est vraiment utile, sinon raccourcir dans le if
   private Solution exploreNeighborhood(Solution tempSolution) {
     Solution bestNeighborhood = tempSolution.clone();
+    Solution tempSolution = null;
     //Solution swapSolution = bestNeighborhood.clone();
     
     for(int i = 0 ; i < instance.getN() ; i++)
       for(int j = 0 ; j < instance.getN() ; j++) {
         bestNeighborhood.swap(i, j);
         
-        if(bestNeighborhood.getOF() > tempSolution.getOF())
-          bestNeighborhood = tempSolution;
+        if(bestNeighborhood.getOF() < tempSolution.getOF())
+          tempSolution = bestNeighborhood;
       }
         
-    return bestNeighborhood;
-    /*
-    Solution bestNeighborhood = tempSolution;
-    Solution swapSolution = bestNeighborhood.clone();
-    
-    for(int i = 0 ; i < instance.getN() ; i++)
-      for(int j = 0 ; j < instance.getN() ; j++) {
-        swapSolution.swap(i, j);
-        
-        if(swapSolution.getOF() < bestNeighborhood.getOF())
-          bestNeighborhood = swapSolution;
-      }
-        
-    return bestNeighborhood;
-    */
+    return tempSolution;
   }
 
   private Solution generateRamdom() {
