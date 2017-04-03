@@ -80,9 +80,21 @@ public class TSPComputation implements Callable<Solution> {
   }
 
   private Solution exploreNeighborhood(Solution tempSolution) {
+    Solution bestNeighborhood = tempSolution.clone();
+    //Solution swapSolution = bestNeighborhood.clone();
     
-    Solution bestNeighborhood = null;
-    Solution swapSolution = null;
+    for(int i = 0 ; i < instance.getN() ; i++)
+      for(int j = 0 ; j < instance.getN() ; j++) {
+        bestNeighborhood.swap(i, j);
+        
+        if(bestNeighborhood.getOF() > tempSolution.getOF())
+          bestNeighborhood = tempSolution;
+      }
+        
+    return bestNeighborhood;
+    /*
+    Solution bestNeighborhood = tempSolution;
+    Solution swapSolution = bestNeighborhood.clone();
     
     for(int i = 0 ; i < instance.getN() ; i++)
       for(int j = 0 ; j < instance.getN() ; j++) {
@@ -93,6 +105,7 @@ public class TSPComputation implements Callable<Solution> {
       }
         
     return bestNeighborhood;
+    */
   }
 
   private Solution generateRamdom() {
