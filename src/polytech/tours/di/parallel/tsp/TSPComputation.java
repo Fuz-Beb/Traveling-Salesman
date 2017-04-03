@@ -34,17 +34,21 @@ public class TSPComputation implements Callable<Solution> {
   @Override
   public Solution call() throws Exception {
     
-    long count = Long.valueOf(config.getProperty("maxcpu"));
+    // s* = bestSolution
+    // s = new randomSolution
     
-    Solution bestSolution = null;
-    Solution tempSolution = new Solution();
+    long startTime=System.currentTimeMillis();
+    long max_cpu = Long.valueOf(config.getProperty("maxcpu"));
+    
+    Solution bestSolution = generateRamdom(), tempSolution = null, localSearchSolution = null;
    
-    for (int i = 0 ; i < count ; i++) {
+    while((System.currentTimeMillis()-startTime)/1_000<=max_cpu) {
       
-      tempSolution = getBestSolution();
+      tempSolution = generateRamdom();
+      localSearchSolution = localSearch(tempSolution);
       
-      if(tempSolution.getOF() > bestSolution.getOF())
-        bestSolution = tempSolution.clone();
+      if(localSearchSolution.getOF() < bestSolution.getOF())
+        bestSolution = localSearchSolution.clone(); // Redemander au prof si erreur
     }
     
     // Affichage test à supprimer plus tard
@@ -54,15 +58,36 @@ public class TSPComputation implements Callable<Solution> {
     return bestSolution;
   }
 
-  private Solution getBestSolution() {
+  private Solution localSearch(Solution tempSolution) {
     
-    Solution findBest = null;
+    boolean bestIsFound = true;
+    Solution bestNeighborhood = null;    
     
-    findBest = generateRamdom();
     
-    // Il faut comparer l'attribut best de la classe avec findBest
     
-    return findBest;
+    while(bestIsFound) {
+      bestNeighborhood = exploreNeighborhood(tempSolution);
+      
+      if(bestNeighborhood.getOF() < tempSolution.getOF())
+        tempSolution = bestNeighborhood;
+    
+      else
+        bestIsFound = false;
+        
+     }
+    
+    return tempSolution;
+  }
+
+  private Solution exploreNeighborhood(Solution tempSolution) {
+    
+    Solution bestNeighborhood = null;
+    
+    for(int i = 0 ; i < instance.getN() ; i++) {
+      for(int j = 0 ; j < instance.getN() ; j ++)
+    }
+    
+    return null;
   }
 
   private Solution generateRamdom() {
