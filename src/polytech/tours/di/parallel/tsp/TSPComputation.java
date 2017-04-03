@@ -82,12 +82,17 @@ public class TSPComputation implements Callable<Solution> {
   private Solution exploreNeighborhood(Solution tempSolution) {
     
     Solution bestNeighborhood = null;
+    Solution swapSolution = null;
     
-    for(int i = 0 ; i < instance.getN() ; i++) {
-      for(int j = 0 ; j < instance.getN() ; j ++)
-    }
-    
-    return null;
+    for(int i = 0 ; i < instance.getN() ; i++)
+      for(int j = 0 ; j < instance.getN() ; j++) {
+        swapSolution.swap(i, j);
+        
+        if(swapSolution.getOF() < bestNeighborhood.getOF())
+          bestNeighborhood = swapSolution;
+      }
+        
+    return bestNeighborhood;
   }
 
   private Solution generateRamdom() {
