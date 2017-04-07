@@ -15,8 +15,8 @@ import polytech.tours.di.parallel.tsp.TSPCostCalculator;
  * Then we generate a random solution and computer its objective function. Finally, we print the solution to the output console.
  * @author Jorge E. Mendoza (dev@jorge-mendoza.com)
  * @version %I%, %G%
- *
  */
+ 
 public class ExampleAlgorithm implements Algorithm {
 
 	@Override

@@ -38,7 +38,8 @@ public class TSPComputation implements Callable<Solution> {
     // s = new randomSolution
     
     long startTime=System.currentTimeMillis();
-    long max_cpu = Long.valueOf(config.getProperty("maxcpu"));
+    //int max_cpu = Integer.valueOf(config.getProperty("maxcpu"));
+    long max_cpu = 100;
     
     Solution bestSolution = generateRamdom(), tempSolution = null, localSearchSolution = null;
    
@@ -48,7 +49,7 @@ public class TSPComputation implements Callable<Solution> {
       localSearchSolution = localSearch(tempSolution);
       
       if(localSearchSolution.getOF() < bestSolution.getOF())
-        bestSolution = localSearchSolution.clone(); // Redemander au prof si erreur
+        bestSolution = localSearchSolution.clone();
     }
     
     // Affichage test à supprimer plus tard
@@ -62,8 +63,6 @@ public class TSPComputation implements Callable<Solution> {
     
     boolean bestIsFound = true;
     Solution bestNeighborhood = null;    
-    
-    
     
     while(bestIsFound) {
       bestNeighborhood = exploreNeighborhood(tempSolution);
@@ -82,15 +81,18 @@ public class TSPComputation implements Callable<Solution> {
   // Vérifier si la variable tempSolution est vraiment utile, sinon raccourcir dans le if
   private Solution exploreNeighborhood(Solution tempSolution) {
     Solution bestNeighborhood = tempSolution.clone();
-    Solution bestTempSolution = null;
+    Solution bestTempSolution = tempSolution.clone();
     //Solution swapSolution = bestNeighborhood.clone();
     
     for(int i = 0 ; i < instance.getN() ; i++)
       for(int j = 0 ; j < instance.getN() ; j++) {
         bestNeighborhood.swap(i, j);
         
+        // Calcul de la solution
+        bestNeighborhood.setOF(TSPCostCalculator.calcOF(instance, bestNeighborhood));
+        
         if(bestNeighborhood.getOF() < tempSolution.getOF())
-          bestTempSolution = bestNeighborhood;
+          bestTempSolution = bestNeighborhood.clone();
       }
         
     return bestTempSolution;

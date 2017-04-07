@@ -29,6 +29,7 @@ public class Launcher {
 		Algorithm algorithm=null;;
 		try {
 			Class<?> c = Class.forName(config.getProperty("algorithm"));
+			
 			algorithm=(Algorithm)c.newInstance();
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException e){
 			e.printStackTrace();

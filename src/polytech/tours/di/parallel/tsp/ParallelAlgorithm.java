@@ -23,6 +23,7 @@ public class ParallelAlgorithm implements Algorithm {
 
 		// Initialisation d'un service d'execution
 		ExecutorService executor = Executors.newFixedThreadPool(Integer.valueOf(config.getProperty("threads")));
+		
 
 		// Lecture d'une instance
 		InstanceReader ir = new InstanceReader();
@@ -30,8 +31,6 @@ public class ParallelAlgorithm implements Algorithm {
 
 		// Récupération de l'instance
 		Instance instance=ir.getInstance();
-
-		// ?? CALCUL DU NOMBRE D'ITERATION ?? // A DEMANDER AU PROF
 
 		// Déclaration des structures de stockage
 		List<Future<Solution>> results = new ArrayList<>();
