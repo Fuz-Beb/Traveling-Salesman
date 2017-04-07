@@ -8,4 +8,5 @@
    <entry key="maxcpu">10</entry>
    <entry key="instance">./data/wi29.tsp.txt</entry>
    <entry key="seed">123456</entry>
+   <entry key="threads">100</entry>
 </properties>
