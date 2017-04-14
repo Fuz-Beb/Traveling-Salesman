@@ -36,10 +36,7 @@ public class Launcher {
 		}
 		
 		//run algorithm
-		Solution s=algorithm.run(config);
-		
-		//report solution
-		System.out.println(s);
+		algorithm.run(config);
 	}
 
 }

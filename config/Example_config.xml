@@ -5,8 +5,8 @@
    	is the datafile holding the instance to solve
    </comment>
    <entry key="algorithm">polytech.tours.di.parallel.tsp.ParallelAlgorithm</entry>
-   <entry key="maxcpu">10</entry>
+   <entry key="maxcpu">60</entry>
    <entry key="instance">./data/wi29.tsp.txt</entry>
    <entry key="seed">123456</entry>
-   <entry key="threads">200</entry>
+   <entry key="threads">2</entry>
 </properties>

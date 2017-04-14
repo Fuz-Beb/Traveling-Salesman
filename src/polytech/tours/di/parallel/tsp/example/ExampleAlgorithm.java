@@ -20,7 +20,7 @@ import polytech.tours.di.parallel.tsp.TSPCostCalculator;
 public class ExampleAlgorithm implements Algorithm {
 
 	@Override
-	public Solution run(Properties config) {
+	public void run(Properties config) {
 
 		//read instance
 		InstanceReader ir=new InstanceReader();
@@ -51,7 +51,7 @@ public class ExampleAlgorithm implements Algorithm {
 				best=s.clone();
 		}
 		//return the solution
-		return best;
+		//return best;
 	}
 
 }

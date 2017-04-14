@@ -15,6 +15,6 @@ public interface Algorithm {
 	 * @param config the algorithm's configuration
 	 * @return the solution to the problem
 	 */
-	public Solution run(Properties config);
+	public void run(Properties config);
 	
 }

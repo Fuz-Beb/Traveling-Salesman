@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * @since Jan 7, 2015
  *
  */
-public class Solution extends ArrayList<Integer> implements Cloneable{
+public class Solution extends ArrayList<Integer> implements Cloneable {
 	
 	/**
 	 * Default serial version UID
@@ -26,10 +26,27 @@ public class Solution extends ArrayList<Integer> implements Cloneable{
 	 */
 	protected double of=Double.NaN;
 	
+	/**
+	 * Count the number of optimum local for the current thread
+	 */
+	protected int countNbOptimLocal;
+	
+	public int getCountNbOptimLocal() {
+		return countNbOptimLocal;
+	}
+	public void setCountNbOptimLocal(int countNbOptimLocal) {
+		this.countNbOptimLocal = countNbOptimLocal;
+	}
+	
+	public Solution() {
+		countNbOptimLocal = 0;
+	}
+	
 	@Override
 	public Solution clone() {
 		Solution clone=new Solution();
 		clone.of=this.of;
+		clone.countNbOptimLocal = this.countNbOptimLocal;
 		for(Integer i:this){
 			clone.add(i);
 		}
