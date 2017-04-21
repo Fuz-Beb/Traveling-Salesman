@@ -31,21 +31,37 @@ public class Solution extends ArrayList<Integer> implements Cloneable {
 	 */
 	protected int countNbOptimLocal;
 	
+	/**
+	 * Constructor per default
+	 */
+	public Solution() {
+		countNbOptimLocal = 0;
+	}
+	
+	/**
+	 * Getter of countNbOptimLocal attribute
+	 * {@link Solution#countNbOptimLocal}
+	 * @return int The number of optimum local
+	 */
 	public int getCountNbOptimLocal() {
 		return countNbOptimLocal;
 	}
+	
+	/**
+	 * Setter of countNbOptimLocal attribute
+	 * {@link Solution#countNbOptimLocal}
+	 * @param countNbOptimLocal
+	 * @return Nothing
+	 */
 	public void setCountNbOptimLocal(int countNbOptimLocal) {
 		this.countNbOptimLocal = countNbOptimLocal;
-	}
-	
-	public Solution() {
-		countNbOptimLocal = 0;
 	}
 	
 	@Override
 	public Solution clone() {
 		Solution clone=new Solution();
 		clone.of=this.of;
+		// Set the number of optimum local
 		clone.countNbOptimLocal = this.countNbOptimLocal;
 		for(Integer i:this){
 			clone.add(i);

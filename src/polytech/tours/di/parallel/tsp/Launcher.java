@@ -13,7 +13,7 @@ import java.util.Properties;
 public class Launcher {
 	
 	/**
-	 * 
+	 * Main function
 	 * @param args[0] the file (path included) with he configuration settings
 	 */
 	public static void main(String[] args) {

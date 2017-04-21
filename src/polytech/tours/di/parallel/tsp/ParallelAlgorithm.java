@@ -14,27 +14,45 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+/**
+ * ParallelAlgorithm.java
+ * Purpose : Create and launch threads to search the shortest way. Print the resultat at the end.  
+ * 
+ * @author Pierrick Bobet, Remy Bouteloup
+ * @version 1.0 17/04/14
+ */
 public class ParallelAlgorithm implements Algorithm {
 	
+	/**
+	 * Store severals time to do experimentations.
+	 */
 	final static private String[] timeCpu = {"5", "15", "35", "60"};
+	
+	/**
+	 * Store severals quantity of threads to do experimentations.
+	 */
 	final static private String[] nbThreads = {"1", "5", "20", "50", "100", "200"};
 		
+	/**
+	 * Run threads to do the calculation and print results.
+	 * 
+	 * @param config The file configuration XML
+	 * @return Nothing
+	 */
 	public void run(Properties config)
 	{
-		// D√©claration de la variable qui contiendra le meilleur r√©sultat de l'ensemble des threads
+		// This solution will store the best
 		Solution theBestSolution = null;
 		
-		// Initialisation d'un service d'execution
+		// Initalize executor service
 		ExecutorService executor;
 
-		// Lecture d'une instance
+		// Read one instance (file)
 		InstanceReader ir = new InstanceReader();
 		ir.buildInstance(config.getProperty("instance"));
-
-		// R√©cup√©ration de l'instance
 		Instance instance=ir.getInstance();
 
-		// D√©claration des structures de stockage
+		// These lists store tasks and results future.
 		List<Future<Solution>> results = new ArrayList<>();
 		List<Callable<Solution>> tasks = new ArrayList<>();
 		
@@ -42,19 +60,20 @@ public class ParallelAlgorithm implements Algorithm {
 		int loopTime = 0, loopThreads = 0, nbLocalOptimum = 0;
 		double ofMoy = 0;
 
+		// When all value of timeCpu will be used, the loop will be stopped. 
 		while (timeCpu.length > loopTime) {
 			// Set configuration to the config file
 			config.setProperty("maxcpu", timeCpu[loopTime]);
 			config.setProperty("threads", nbThreads[loopThreads]);
 			
-			// Initialisation d'un service d'execution
+			// Setup threads to the executor.
 			executor = Executors.newFixedThreadPool(Integer.valueOf(config.getProperty("threads")));
 			
-			// Affection des taches a faire dans la structure de stockage 
+			// Assignments of tasks to the list 
 			for (int i = 0 ; i < Integer.valueOf(config.getProperty("threads")) ; i++)
 				tasks.add(new TSPComputation(instance, config));
-
-			// Lancement des threads
+			
+			// Run and shutdown threads
 			try	{
 				results = executor.invokeAll(tasks);
 				executor.shutdown();
@@ -62,30 +81,32 @@ public class ParallelAlgorithm implements Algorithm {
 				e.printStackTrace();
 			}
 
-			// Comparaison du meilleur rÈsultat de chaque threads
 			try
 			{
-				// RÈcupÈration du premier rÈsultat pour le comparer un ‡ un aux autres.
+				// Recover the first solution to do comparison
 				theBestSolution = results.get(0).get().clone();
 				nbLocalOptimum = theBestSolution.getCountNbOptimLocal();
 				ofMoy = theBestSolution.getOF();
 				
-				// Comparaison
+				// Search the shortest way, the totally of optimum local and an average of the best way founded by each threads.
 				for (int j = 1 ; j < results.size() ; j++)
 				{
-					// RÈcupÈration de la moyenne et du nombre d'optimum local
+					
 					nbLocalOptimum += results.get(j).get().getCountNbOptimLocal();
 					ofMoy += results.get(j).get().getOF();
 					
+					// Search the shortest way
 					if (results.get(j).get().getOF() < theBestSolution.getOF())
 						theBestSolution = results.get(j).get().clone();
 				}
 			} catch (InterruptedException | ExecutionException e) {
 				e.printStackTrace();
 			}
+			// Round variable to improve printing
 			ofMoy = Math.round(ofMoy);
 			theBestSolution.setOF(Math.round(theBestSolution.getOF()));
 			
+			// Print results
 			System.out.println("TIME\tTASKS\tTHREADS\tOPTIMUMLOCAL\tOFMIN\tOFMOY");
 			System.out.println(Long.valueOf(config.getProperty("maxcpu")) + "\t" + Integer.valueOf(config.getProperty("threads")) + "\t" + Integer.valueOf(config.getProperty("threads")) + "\t" + nbLocalOptimum + "\t\t" + theBestSolution.getOF() + "\t" + ofMoy / Integer.valueOf(config.getProperty("threads")) + "\t\n");
 			
@@ -99,32 +120,6 @@ public class ParallelAlgorithm implements Algorithm {
 				loopThreads = 0;
 				loopTime++;
 			}
-				
 		}
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
