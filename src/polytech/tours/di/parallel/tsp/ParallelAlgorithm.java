@@ -60,7 +60,7 @@ public class ParallelAlgorithm implements Algorithm {
 		int loopTime = 0, loopThreads = 0, nbLocalOptimum = 0;
 		double ofMoy = 0;
 
-		// When all value of timeCpu will be used, the loop will be stopped. 
+		// When all value of timeCpu will be used, the loop will be stopped.
 		while (timeCpu.length > loopTime) {
 			// Set configuration to the config file
 			config.setProperty("maxcpu", timeCpu[loopTime]);
@@ -91,7 +91,6 @@ public class ParallelAlgorithm implements Algorithm {
 				// Search the shortest way, the totally of optimum local and an average of the best way founded by each threads.
 				for (int j = 1 ; j < results.size() ; j++)
 				{
-					
 					nbLocalOptimum += results.get(j).get().getCountNbOptimLocal();
 					ofMoy += results.get(j).get().getOF();
 					

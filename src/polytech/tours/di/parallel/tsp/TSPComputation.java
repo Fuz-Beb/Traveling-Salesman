@@ -63,7 +63,7 @@ public class TSPComputation implements Callable<Solution> {
 	     
 	      // If the optimum local founded is lower than the current best solution named bestSolution
 	      if(localSearchSolution.getOF() < bestSolution.getOF())
-	    	  bestSolution = localSearchSolution;
+	    	  bestSolution = localSearchSolution.clone();
 	  }
 	  // Set the counter on the solution returned
 	  bestSolution.setCountNbOptimLocal(counter);
@@ -88,7 +88,7 @@ public class TSPComputation implements Callable<Solution> {
       
 		  // If the path is better
 		  if(bestNeighborhood.getOF() < tempSolution.getOF())
-			  tempSolution = bestNeighborhood;
+			  tempSolution = bestNeighborhood.clone();
 		  else
 			  bestIsFound = false;
 	  }
@@ -101,9 +101,8 @@ public class TSPComputation implements Callable<Solution> {
    * @return Solution The best solution founded
    */
   private Solution exploreNeighborhood(Solution tempSolution) {
-	// Solutions to store temporary solution
+	// Solution to store temporary solution
     Solution bestNeighborhood = tempSolution.clone();
-    Solution bestTempSolution = tempSolution.clone();
     
     // Swap city to determine the shortest path
     for(int i = 0 ; i < instance.getN() ; i++)
@@ -115,9 +114,9 @@ public class TSPComputation implements Callable<Solution> {
         
         // If the path founded is shortest
         if(bestNeighborhood.getOF() < tempSolution.getOF())
-          bestTempSolution = bestNeighborhood.clone();
+        	tempSolution = bestNeighborhood.clone();
       }
-    return bestTempSolution;
+    return tempSolution;
   }
 
   /**
